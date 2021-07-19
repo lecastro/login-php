@@ -1,1 +1,4 @@
 /vendor
+composer.lock
+scripts.min.js
+style.min.css

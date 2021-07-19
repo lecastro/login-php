@@ -3,13 +3,14 @@
 namespace Source\Controllers;
 
 use Source\Models\User;
+use CoffeeCode\Router\Router;
 
-/**
- *
- */
-class Web extends Controller
+class WebController extends Controller
 {
-    public function __construct($router)
+    /** @var Router */
+    protected $router;
+
+    public function __construct(Router $router)
     {
         parent::__construct($router);
 
@@ -82,7 +83,7 @@ class Web extends Controller
             $this->router->redirect('web.forget');
         }
 
-        $user = (new User())->find('email = :e AND forget= :f', "e={$email}&f={$forget}")->fetch();
+        $user = (new User())->findByOne('email', $email);
 
         if (!$user) {
             flash('error', $errforget);

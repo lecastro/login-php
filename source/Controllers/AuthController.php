@@ -4,16 +4,17 @@ namespace Source\Controllers;
 
 use Source\Models\User;
 use Source\Support\Email;
+use CoffeeCode\Router\Router;
 
-/**
- *
- */
-class Auth extends Controller
+class AuthController extends Controller
 {
+    /** @var Router */
+    protected $router;
+
     /** @var User */
     protected $model;
 
-    public function __construct($router)
+    public function __construct(Router $router)
     {
         parent::__construct($router);
         $this->model = new User();
@@ -33,7 +34,7 @@ class Auth extends Controller
             return;
         }
 
-        $user = (new User())->find('email = :e', "e={$email}")->fetch();
+        $user = (new User())->findByOne('email', $email);
 
         if (!$user || !password_verify($passwd, $user->passwd)) {
             echo $this->ajaxResponse('message', [
@@ -71,8 +72,8 @@ class Auth extends Controller
 
         if (!$this->model->save()) {
             echo $this->ajaxResponse('message', [
-                'type'    => 'error',
-                'message' => $this->model->fail()->getMessage()
+                'type' => 'error',
+                // 'message' => $this->model->fail()->getMessage()
             ]);
 
             return;
@@ -99,7 +100,7 @@ class Auth extends Controller
             return;
         }
 
-        $user = (new User())->find('email = :e', "e={$email}")->fetch();
+        $user = (new User())->findByOne('email', $email);
 
         if (!$user) {
             echo $this->ajaxResponse('message', [
@@ -113,7 +114,7 @@ class Auth extends Controller
         $user->forget = (md5(uniqid(rand(), true)));
         $user->save();
 
-        $_SESSION['forget'] = $user->id;
+        $_SESSION['forget'] = $user->forget;
 
         $email = new Email();
 
@@ -140,7 +141,7 @@ class Auth extends Controller
     /** @param string[] $data */
     public function reset(array $data): void
     {
-        if (empty($_SESSION['forget']) || !$user = (new User())->findById($_SESSION['forget'])) {
+        if (empty($_SESSION['forget']) || !$user = (new User())->findByOne('forget', $_SESSION['forget'])) {
             flash('error', 'não foi possivel recuperar tente novamente');
             echo $this->ajaxResponse('redirect', [
                 'url' => $this->router->route('web.forget'),
@@ -167,7 +168,7 @@ class Auth extends Controller
             return;
         }
 
-        $user->passwd = $data['password'];
+        $user->passwd = password_hash($data['password'], PASSWORD_DEFAULT);
         $user->forget = null;
 
         if (!$user->save()) {

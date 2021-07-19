@@ -8,9 +8,9 @@
 
     <?= $head; ?>
 
-    <link rel="stylesheet" href="<?= asset("/style.min.css"); ?>"/>
+    <link rel="stylesheet" href="<?= asset('/style.min.css'); ?>"/>
 
-    <link rel="icon" type="image/png" href="<?= asset("/images/favicon.png"); ?>"/>
+    <link rel="icon" type="image/png" href="<?= asset('/images/favicon.png'); ?>"/>
 </head>
 <body>
 
@@ -22,13 +22,13 @@
 </div>
 
 <main class="main_content">
-    <?= $v->section("content"); ?>
+    <?= $v->section('content'); ?>
 </main>
 
-<script src="<?= asset("/js/jquery.js"); ?>"></script>
-<script src="<?= asset("/js/jquery-ui.js"); ?>"></script>
-<!-- <script src="<?= asset("/scripts.min.js"); ?>"></script> -->
-<?= $v->section("scripts"); ?>
+<script src="<?= asset('/js/jquery.js'); ?>"></script>
+<script src="<?= asset('/js/jquery-ui.js'); ?>"></script>
+<!-- <script src="<?= asset('/scripts.min.js'); ?>"></script> -->
+<?= $v->section('scripts'); ?>
 
 </body>
 </html>

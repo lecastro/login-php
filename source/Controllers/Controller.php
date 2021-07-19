@@ -6,9 +6,6 @@ use CoffeeCode\Router\Router;
 use CoffeeCode\Optimizer\Optimizer;
 use League\Plates\Engine;
 
-/**
- *
- */
 abstract class Controller
 {
     /** @var Engine */

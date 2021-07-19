@@ -1,5 +1,5 @@
-$(function () {
-    $("form").submit(function (e) {
+$(function() {
+    $("form").submit(function(e) {
         e.preventDefault();
 
         var form = $(this);
@@ -11,10 +11,10 @@ $(function () {
             data: data,
             type: "post",
             dataType: "json",
-            beforeSend: function (load) {
+            beforeSend: function(load) {
                 ajax_load("open");
             },
-            success: function (su) {
+            success: function(su) {
                 ajax_load("close");
 
                 if (su.message) {

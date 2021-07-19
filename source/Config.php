@@ -5,12 +5,23 @@ define('SITE', [
     'desc'   => 'Esse projeto teste para kabum',
     'domain' => 'localhost.com',
     'locate' => 'pt_BR',
-    'root'   => 'http://localhost/kabum/'
+    'root'   => 'http://localhost/login-php'
 ]);
 
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
     require __DIR__ . '/Minify.php';
 }
+
+define('ELOQUENT_ORM_CONFIG', [
+    'driver'    => 'mysql',
+    'host'      => '127.0.0.1',
+    'database'  => 'kabum_test',
+    'username'  => 'root',
+    'password'  => 'root',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+]);
 
 define('DATA_LAYER_CONFIG', [
     'driver'   => 'mysql',
@@ -18,7 +29,7 @@ define('DATA_LAYER_CONFIG', [
     'port'     => '3306',
     'dbname'   => 'kabum_test',
     'username' => 'root',
-    'passwd'   => '',
+    'passwd'   => 'root',
     'options'  => [
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

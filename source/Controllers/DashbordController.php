@@ -3,19 +3,23 @@
 namespace Source\Controllers;
 
 use Source\Models\User;
+use CoffeeCode\Router\Router;
 
-/**
- *
- */
-class App extends Controller
+class DashbordController extends Controller
 {
     protected $user;
 
-    public function __construct($router)
+    /** @var Router */
+    protected $router;
+
+    /** @var User */
+    protected $model;
+
+    public function __construct(Router $router)
     {
         parent::__construct($router);
 
-        if (empty($_SESSION['user']) || !$this->user = (new User())->findById($_SESSION['user'])) {
+        if (empty($_SESSION['user']) || !$this->user = (new User())->findById((int) $_SESSION['user'])) {
             unset($_SESSION['user']);
 
             flash('error', 'Acesso negado. Favor logue-se');

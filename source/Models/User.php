@@ -1,65 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Source\Models;
 
-use CoffeeCode\DataLayer\DataLayer;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- *
- */
-class User extends DataLayer
+class User extends Model
 {
-    public function __construct()
+    /** @var string */
+    public $table = 'users';
+
+    /** @var array */
+    protected $fillable = [
+        ['first_name', 'last_name', 'email', 'passwd', 'fotget']
+    ];
+
+    /** @var string */
+    protected $primaryKey = 'id';
+
+    public function address(): BelongsTo
     {
-        parent::__construct('users', ['first_name', 'last_name', 'email', 'passwd']);
+        return $this->belongsTo(Address::class, 'address_id');
     }
 
-    public function save(): bool
+    public function findById(int $id): User
     {
-        if (!$this->validateEmail()
-        || !$this->validatePassword()
-        || !parent::save()) {
-            return false;
-        }
-
-        return true;
+        return $this->newQuery()->find($id);
     }
 
-    public function validateEmail(): bool
+    public function findByOne(string $key, string $value): User
     {
-        if (empty($this->email) || !filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            $this->fail = new \Exception('Informe um e-mail válido');
-            return false;
-        }
-
-        $userByEmail = null;
-
-        if (!$this->id) {
-            $userByEmail = $this->find('email = :email', "email={$this->email}")->count();
-        } else {
-            $userByEmail = $this->find('email = :email AND id != :id', "email={$this->email}&id={$this->id}")->count();
-        }
-
-        if ($userByEmail) {
-            $this->fail = new \Exception('O E-mail informado já está em uso.');
-            return false;
-        }
-
-        return true;
-    }
-
-    public function validatePassword(): bool
-    {
-        if (empty($this->passwd) || strlen($this->passwd) < 5) {
-            $this->fail = new \Exception('Informe um senha com pelo menos 5 caracteres');
-            return false;
-        }
-
-        if (password_get_info($this->passwd)['algo']) {
-            return true;
-        }
-
-        $this->passwd = password_hash($this->passwd, PASSWORD_DEFAULT);
-        return true;
+        return $this->newQuery()->where($key, $value)->first();
     }
 }

@@ -20,8 +20,14 @@ class Address extends Model
         'neighborhood',
         'city',
         'state',
+        'client_id',
     ];
 
     /** @var string */
     protected $primaryKey = 'id';
+
+    public function new(array $adrress): Address
+    {
+        return $this->create($adrress);
+    }
 }

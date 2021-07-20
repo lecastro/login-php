@@ -173,8 +173,7 @@ class AuthController extends Controller
 
         if (!$user->save()) {
             echo $this->ajaxResponse('message', [
-                'type'    => 'error',
-                'message' => $user->fail()->getMessage()
+                'type' => 'error'
             ]);
         }
 

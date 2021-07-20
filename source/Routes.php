@@ -20,10 +20,11 @@ $router->post('/forget', 'AuthController:forget', 'auth.forget');
 $router->post('/reset', 'AuthController:reset', 'auth.reset');
 
 $router->group('client');
-$router->get('/', 'ClientController:index', 'address.index');
-$router->post('/cadastrar', 'ClientController:store', 'address.store');
-$router->post('/atualizar', 'ClientController:update', 'address.update');
-$router->post('/deletar', 'ClientController:delete', 'address.delete');
+$router->get('/', 'ClientController:index', 'client.index');
+$router->get('/cadastrar', 'ClientController:create', 'client.create');
+$router->post('/store', 'ClientController:store', 'client.store');
+$router->post('/atualizar', 'ClientController:update', 'client.update');
+$router->post('/deletar', 'ClientController:delete', 'client.delete');
 
 //profile
 $router->group('me');

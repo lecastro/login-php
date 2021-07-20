@@ -6,7 +6,7 @@
 <div class="container">
     <h2>Clientes</h2>
     <p>Lista de clientes cadastro.:</p>
-    <h3>Novo <a href="<?= $router->route('client.index'); ?>" class="btn btn-dark">ADD</a></h3>
+    <h3>Novo <a href="<?= $router->route('client.create'); ?>" class="btn btn-dark">ADD</a></h3>
     <table class="table table-striped">
         <thead>
             <tr>

@@ -18,7 +18,8 @@ class Client extends Model
         'birth_date',
         'rg',
         'cpf',
-        'phone'
+        'phone',
+        'user_id'
     ];
 
     /** @var string */
@@ -47,5 +48,10 @@ class Client extends Model
                 'formattedAddress' => $client->street . ', ' . $client->number . ' - ' . $client->neighborhood . ', ' . $client->city . ' - ' . $client->state . ', ' . $client->zip_code,
             ];
         })->toArray();
+    }
+
+    public function new(array $client): Client
+    {
+        return $this->create($client);
     }
 }

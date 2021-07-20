@@ -39,8 +39,8 @@ class DashbordController extends Controller
 
         echo $this->view->render('theme/dashboard', [
             'head' => $head,
-            'user' => $this->user
-            // 'data' => (new Client())->findClientsById((int) $this->user->id)
+            'user' => $this->user,
+            'data' => (new Client())->findClientsById((int) $this->user->id)
         ]);
     }
 

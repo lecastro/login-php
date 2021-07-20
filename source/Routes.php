@@ -30,6 +30,12 @@ $router->group('me');
 $router->get('/', 'DashbordController:home', 'app.home');
 $router->get('/sair', 'DashbordController:logoff', 'app.logoff');
 
+$router->group('client');
+$router->get('/', 'ClientController:index', 'address.index');
+$router->post('/cadastrar', 'ClientController:store', 'address.store');
+$router->post('/atualizar', 'ClientController:update', 'address.update');
+$router->post('/deletar', 'ClientController:delete', 'address.delete');
+
 //errors
 $router->group('ops');
 $router->get('/{errcode}', 'Web:error', 'web.error');

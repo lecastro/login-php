@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Source\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Address extends Model
 {
@@ -23,8 +22,6 @@ class Address extends Model
         'state',
     ];
 
-    public function user(): HasMany
-    {
-        return $this->hasMany(User::class, 'address_id');
-    }
+    /** @var string */
+    protected $primaryKey = 'id';
 }

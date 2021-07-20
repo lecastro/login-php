@@ -3,6 +3,7 @@
 namespace Source\Controllers;
 
 use Source\Models\User;
+use Source\Models\Client;
 use CoffeeCode\Router\Router;
 
 class DashbordController extends Controller
@@ -39,6 +40,7 @@ class DashbordController extends Controller
         echo $this->view->render('theme/dashboard', [
             'head' => $head,
             'user' => $this->user
+            // 'data' => (new Client())->findClientsById((int) $this->user->id)
         ]);
     }
 

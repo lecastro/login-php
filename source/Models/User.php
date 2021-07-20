@@ -20,9 +20,9 @@ class User extends Model
     /** @var string */
     protected $primaryKey = 'id';
 
-    public function address(): BelongsTo
+    public function clients(): BelongsTo
     {
-        return $this->belongsTo(Address::class, 'address_id');
+        return $this->belongsTo(Client::class, 'id');
     }
 
     public function findById(int $id): User

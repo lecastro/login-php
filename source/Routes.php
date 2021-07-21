@@ -25,7 +25,7 @@ $router->get('/cadastrar', 'ClientController:create', 'client.create');
 $router->post('/store', 'ClientController:store', 'client.store');
 $router->get('/atualizar/{id}', 'ClientController:edit', 'client.edit');
 $router->post('/update', 'ClientController:update', 'client.update');
-$router->post('/deletar', 'ClientController:delete', 'client.delete');
+$router->get('/deletar/{id}', 'ClientController:delete', 'client.delete');
 
 //profile
 $router->group('me');

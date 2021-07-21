@@ -102,7 +102,7 @@ class WebController extends Controller
         ]);
     }
 
-    public function error($data): void
+    public function error(array $data): void
     {
         $error = filter_var($data['errcode'], FILTER_VALIDATE_INT);
 

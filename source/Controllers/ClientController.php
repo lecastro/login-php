@@ -31,11 +31,6 @@ class ClientController extends Controller
         $this->address  = new Address();
     }
 
-    public function index(array $data): void
-    {
-        // code...
-    }
-
     public function create(): void
     {
         $head = $this->seo->optimize(
@@ -149,6 +144,38 @@ class ClientController extends Controller
 
     public function delete(array $data): void
     {
-        // code...
+        $id = filter_var($data['id'], FILTER_DEFAULT);
+
+        $client = $this->client->find((int) $id);
+
+        if (!$client) {
+            echo $this->ajaxResponse('message', [
+                'type'    => 'error',
+                'message' => 'Id inválido.'
+            ]);
+
+            return;
+        }
+
+        if (!$client->delete()) {
+            echo $this->ajaxResponse('message', [
+                'type' => 'error'
+            ]);
+
+            return;
+        }
+
+        $head = $this->seo->optimize(
+            "Bem vindo(a) {$this->user->first_name} | " . site('name'),
+            site('desc'),
+            $this->router->route('app.home'),
+            routeImage('Login')
+        )->render();
+
+        echo $this->view->render('theme/dashboard', [
+            'head' => $head,
+            'user' => $this->user,
+            'data' => (new Client())->findAllClients((int) $this->user->id)
+        ]);
     }
 }

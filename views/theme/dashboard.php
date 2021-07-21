@@ -31,7 +31,7 @@
                 
                 <td>
                     <a href="<?= $router->route('client.edit', ['id' => $value['id']]); ?>" class="btn btn-info">Editar</a>
-                    <a href="#" class="btn btn-warning">Apagar</a>
+                    <a href="<?= $router->route('client.delete', ['id' => $value['id']]); ?>" class="btn btn-warning">Apagar</a>
                 </td>
             </tr>
             <?php endforeach ?>

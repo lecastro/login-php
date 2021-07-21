@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Source\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Client extends Model
 {
+    use SoftDeletes;
+
     /** @var string */
     public $table = 'clients';
 
@@ -30,16 +35,42 @@ class Client extends Model
         return $this->belongsTo(Address::class, 'id');
     }
 
-    public function findClientsById(int $id): array
+    public function findAllClients(int $id): array
     {
         $clients = $this
-                    ->newQuery()
-                    ->leftjoin('addresses', 'clients.id', 'client_id')
+                    ->baseQuery()
                     ->where('user_id', $id)
                     ->get();
 
+        return $this->formatted($clients);
+    }
+
+    public function new(array $client): Client
+    {
+        return $this->create($client);
+    }
+
+    private function baseQuery(): Builder
+    {
+        return $this
+        ->newQuery()
+        ->select(
+            'clients.*',
+            'addresses.street',
+            'addresses.number',
+            'addresses.neighborhood',
+            'addresses.city',
+            'addresses.state',
+            'addresses.zip_code'
+        )
+        ->leftjoin('addresses', 'clients.id', 'client_id');
+    }
+
+    private function formatted(Collection $clients): array
+    {
         return $clients->map(function ($client) {
             return [
+                'id'               => $client->id,
                 'name'             => $client->name,
                 'rg'               => $client->rg,
                 'cpf'              => $client->cpf,
@@ -50,8 +81,8 @@ class Client extends Model
         })->toArray();
     }
 
-    public function new(array $client): Client
+    public function findClientById(int $id): client
     {
-        return $this->create($client);
+        return $this->baseQuery()->find($id);
     }
 }

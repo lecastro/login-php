@@ -92,9 +92,59 @@ class ClientController extends Controller
         ]);
     }
 
+    public function edit(array $data): void
+    {
+        $client = $this->client->findClientById((int) $data['id']);
+
+        $head = $this->seo->optimize(
+            'Editar Novo cliente | ' . site('name'),
+            site('desc'),
+            $this->router->route('client.edit'),
+            routeImage('cadastrar')
+        )->render();
+
+        echo $this->view->render('client/edit', [
+            'head' => $head,
+            'data' => $client
+        ]);
+    }
+
     public function update(array $data): void
     {
-        // code...
+        $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+
+        if (in_array('', $data)) {
+            echo $this->ajaxResponse('message', [
+                'type'    => 'error',
+                'message' => 'Todos campos precisam ser preenchidos.'
+            ]);
+
+            return;
+        }
+
+        $client = $this->client->findClientById((int) $data['id']);
+
+        if (is_null($client) || !$client->update($data)) {
+            echo $this->ajaxResponse('message', [
+                'type' => 'error',
+            ]);
+
+            return;
+        }
+
+        $address = $this->address->find((int) $data['id']);
+
+        if (is_null($client) || !$address->update($data)) {
+            echo $this->ajaxResponse('message', [
+                'type' => 'error',
+            ]);
+
+            return;
+        }
+
+        echo $this->ajaxResponse('redirect', [
+            'url' => $this->router->route('client.edit', ['id' => $data['id']])
+        ]);
     }
 
     public function delete(array $data): void

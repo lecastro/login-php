@@ -28,8 +28,9 @@
                 <td><?=$v->e($value['birth_date'])?></td>
                 <td><?=$v->e($value['phone'])?></td>
                 <td><?=$v->e($value['formattedAddress'])?></td>
+                
                 <td>
-                    <a href="#" class="btn btn-info">Editar</a>
+                    <a href="<?= $router->route('client.edit', ['id' => $value['id']]); ?>" class="btn btn-info">Editar</a>
                     <a href="#" class="btn btn-warning">Apagar</a>
                 </td>
             </tr>

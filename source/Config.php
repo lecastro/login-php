@@ -5,7 +5,7 @@ define('SITE', [
     'desc'   => 'Esse projeto teste para kabum',
     'domain' => 'localhost.com',
     'locate' => 'pt_BR',
-    'root'   => 'http://localhost/login-php'
+    'root'   => 'http://localhost:3333/login-php'
 ]);
 
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
